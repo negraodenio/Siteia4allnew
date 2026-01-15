@@ -1,21 +1,40 @@
 
 import React, { useState } from 'react';
-import { Send, CheckCircle2, ChevronRight } from 'lucide-react';
+import { Send, CheckCircle2, ChevronRight, AlertCircle } from 'lucide-react';
 
 const ContactForm: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
+    setError(null);
+
+    const formData = new FormData(e.currentTarget);
     
-    // Simulação de envio. 
-    // Para produção: integrar com Formspree ou uma API Route da Vercel para disparar o SMTP.
-    setTimeout(() => {
+    try {
+      // Endpoint real fornecido: mwvvpnaw
+      const response = await fetch('https://formspree.io/f/mwvvpnaw', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        setSubmitted(true);
+      } else {
+        const data = await response.json();
+        setError(data.error || 'Connection failed. Please use direct email.');
+      }
+    } catch (err) {
+      setError('Network error. Systems are currently under high load.');
+    } finally {
       setLoading(false);
-      setSubmitted(true);
-    }, 1200);
+    }
   };
 
   if (submitted) {
@@ -26,15 +45,15 @@ const ContactForm: React.FC = () => {
             <CheckCircle2 className="text-blue-500" size={40} />
           </div>
           <h2 className="text-3xl font-black text-white mb-4 uppercase tracking-tight">Transmission Received</h2>
-          <p className="text-slate-400 mb-8 text-lg font-medium">
-            Your inquiry has been routed to <span className="text-blue-400">help@ia4all.eu</span>. 
-            A carbon copy was dispatched to the operations lead.
+          <p className="text-slate-400 mb-8 text-lg font-medium leading-relaxed">
+            Your inquiry has been successfully routed to <span className="text-blue-400">help@ia4all.eu</span>. 
+            A secure copy has been dispatched to our engineering desk for immediate triage.
           </p>
           <button 
             onClick={() => setSubmitted(false)}
-            className="text-blue-500 font-black uppercase tracking-widest text-xs hover:text-blue-400 transition-all"
+            className="text-blue-500 font-black uppercase tracking-widest text-xs hover:text-blue-400 transition-all border-b border-blue-500/20 pb-1"
           >
-            Send another message
+            Submit another briefing
           </button>
         </div>
       </section>
@@ -55,7 +74,7 @@ const ContactForm: React.FC = () => {
             
             <div className="space-y-6">
               <div className="flex items-start group">
-                <div className="w-12 h-12 bg-slate-900 rounded-lg flex items-center justify-center mr-4 border border-slate-800 text-blue-500 group-hover:border-blue-500/50 transition-colors">
+                <div className="w-12 h-12 bg-slate-900 rounded-lg flex items-center justify-center mr-4 border border-slate-800 text-blue-500 group-hover:border-blue-500/50 transition-colors shrink-0">
                   <Send size={20} />
                 </div>
                 <div>
@@ -65,7 +84,7 @@ const ContactForm: React.FC = () => {
               </div>
               <div className="p-6 bg-blue-500/5 border border-blue-500/20 rounded-sm mt-12">
                 <p className="text-sm text-slate-300 leading-relaxed italic font-medium">
-                  "All submissions are dual-routed to our primary operations desk at help@ia4all.eu and CC'd to technical leadership for redundancy."
+                  "All submissions are dual-routed to our primary operations desk and executive engineering lead at <span className="text-blue-400 font-bold">negraodenio@gmail.com</span> for immediate triage."
                 </p>
               </div>
             </div>
@@ -75,10 +94,18 @@ const ContactForm: React.FC = () => {
             <div className="absolute -top-24 -right-24 w-48 h-48 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
             
             <form onSubmit={handleSubmit} className="relative z-10 space-y-6">
+              {error && (
+                <div className="bg-red-500/10 border border-red-500/50 p-4 rounded-sm flex items-center text-red-500 text-[10px] font-black uppercase tracking-widest">
+                  <AlertCircle size={14} className="mr-3 shrink-0" />
+                  {error}
+                </div>
+              )}
+
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label htmlFor="name" className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Full Name</label>
                   <input 
+                    name="name"
                     id="name"
                     required
                     type="text" 
@@ -89,6 +116,7 @@ const ContactForm: React.FC = () => {
                 <div className="space-y-2">
                   <label htmlFor="email" className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Company Email</label>
                   <input 
+                    name="email"
                     id="email"
                     required
                     type="email" 
@@ -102,13 +130,14 @@ const ContactForm: React.FC = () => {
                 <label htmlFor="scope" className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Project Scope</label>
                 <div className="relative">
                   <select 
+                    name="scope"
                     id="scope"
                     className="w-full bg-slate-950 border border-slate-800 rounded-sm px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-all appearance-none cursor-pointer font-medium"
                   >
-                    <option>Workflow Automation</option>
-                    <option>RAG & Knowledge Systems</option>
-                    <option>AI Governance Audit</option>
-                    <option>Custom Enterprise Agent</option>
+                    <option value="Workflow Automation">Workflow Automation</option>
+                    <option value="RAG & Knowledge Systems">RAG & Knowledge Systems</option>
+                    <option value="AI Governance Audit">AI Governance Audit</option>
+                    <option value="Custom Enterprise Agent">Custom Enterprise Agent</option>
                   </select>
                   <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">
                     <ChevronRight size={16} className="rotate-90" />
@@ -117,8 +146,9 @@ const ContactForm: React.FC = () => {
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="message" className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Message</label>
+                <label htmlFor="message" className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Brief Description</label>
                 <textarea 
+                  name="message"
                   id="message"
                   required
                   rows={4}
@@ -142,7 +172,7 @@ const ContactForm: React.FC = () => {
                   </span>
                 ) : (
                   <>
-                    <span>Submit Strategic Request</span>
+                    <span>Request Technical Briefing</span>
                     <Send size={14} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                   </>
                 )}
