@@ -7,6 +7,8 @@
     <title>IA4ALL | Applied AI Engineering</title>
     <meta name="description" content="Sovereign AI Engineering for the European Enterprise. Architecting resilient and high-performance intelligence systems.">
     
+    <!-- Meta tags para garantir cores corretas no carregamento -->
+    <meta name="theme-color" content="#020617">
     <style>
         :root { background-color: #020617; }
         body { margin: 0; padding: 0; background-color: #020617; color: white; min-height: 100vh; }
@@ -39,7 +41,7 @@
 <body class="bg-slate-950 text-slate-100 antialiased selection:bg-blue-600 selection:text-white">
     <div id="root"></div>
     
-    <!-- O Vite/Vercel espera o caminho para o arquivo .tsx original para processá-lo -->
-    <script type="module" src="/index.tsx"></script>
+    <!-- No Vite/Vercel, o ponto de entrada DEVE ser o .tsx sem importmaps externos -->
+    <script type="module" src="./index.tsx"></script>
 </body>
 </html>
