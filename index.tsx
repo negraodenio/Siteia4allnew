@@ -2,6 +2,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
+import './index.css';
 
 const container = document.getElementById('root');
 
@@ -12,6 +13,4 @@ if (container) {
       <App />
     </React.StrictMode>
   );
-} else {
-  console.error("Critical Error: Target container #root not found in the DOM.");
 }
