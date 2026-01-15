@@ -10,7 +10,8 @@ const ContactForm: React.FC = () => {
     e.preventDefault();
     setLoading(true);
     
-    // Simulação de envio
+    // Simulação de envio. 
+    // Para produção: integrar com Formspree ou uma API Route da Vercel para disparar o SMTP.
     setTimeout(() => {
       setLoading(false);
       setSubmitted(true);
@@ -26,8 +27,8 @@ const ContactForm: React.FC = () => {
           </div>
           <h2 className="text-3xl font-black text-white mb-4 uppercase tracking-tight">Transmission Received</h2>
           <p className="text-slate-400 mb-8 text-lg font-medium">
-            Your inquiry has been routed to <span className="text-blue-400">hello@ia4all.eu</span>. 
-            An engineering lead will contact you shortly.
+            Your inquiry has been routed to <span className="text-blue-400">help@ia4all.eu</span>. 
+            A carbon copy was dispatched to the operations lead.
           </p>
           <button 
             onClick={() => setSubmitted(false)}
@@ -59,12 +60,12 @@ const ContactForm: React.FC = () => {
                 </div>
                 <div>
                   <h4 className="text-white font-black uppercase tracking-widest text-xs mb-1">Direct Inquiries</h4>
-                  <a href="mailto:hello@ia4all.eu" className="text-slate-400 hover:text-white transition-colors font-medium">hello@ia4all.eu</a>
+                  <a href="mailto:help@ia4all.eu" className="text-slate-400 hover:text-white transition-colors font-medium">help@ia4all.eu</a>
                 </div>
               </div>
               <div className="p-6 bg-blue-500/5 border border-blue-500/20 rounded-sm mt-12">
                 <p className="text-sm text-slate-300 leading-relaxed italic font-medium">
-                  "All submissions are dual-routed to our primary operations desk and executive engineering lead for immediate triage."
+                  "All submissions are dual-routed to our primary operations desk at help@ia4all.eu and CC'd to technical leadership for redundancy."
                 </p>
               </div>
             </div>

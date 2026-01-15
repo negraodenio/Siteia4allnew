@@ -39,7 +39,7 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="text-white font-black mb-10 uppercase tracking-[0.3em] text-[9px]">Contact</h4>
             <ul className="space-y-4 text-slate-500 text-[11px] font-bold uppercase tracking-widest">
-              <li><a href="mailto:hello@ia4all.eu" className="text-slate-300 hover:text-blue-500 transition-colors">hello@ia4all.eu</a></li>
+              <li><a href="mailto:help@ia4all.eu" className="text-slate-300 hover:text-blue-500 transition-colors">help@ia4all.eu</a></li>
               <li className="pt-2 text-slate-800">Operational Engineering Desk</li>
             </ul>
           </div>
